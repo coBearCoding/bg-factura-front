@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "bg-facturador-frontend:build:production"
+              "buildTarget": "bg-facturador-frontend:build:production"
             },
             "development": {
-              "browserTarget": "bg-facturador-frontend:build:development"
+              "buildTarget": "bg-facturador-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +71,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bg-facturador-frontend:build"
+            "buildTarget": "bg-facturador-frontend:build"
           }
         },
         "test": {
