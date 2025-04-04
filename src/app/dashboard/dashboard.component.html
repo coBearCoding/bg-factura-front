@@ -1,0 +1,48 @@
+<!-- <app-layout> -->
+<h1>Panel de control</h1>
+<div class="container">
+  <section id="chart">
+    <p-chart type="bar" [data]="basicData" [options]="basicOptions" />
+  </section>
+
+  <section id="products-tables" class="container__product__table">
+    <div class="container__product__tables__sales">
+      <h2>Últimas Ventas</h2>
+      <p-table [columns]="cols" stripedRows [value]="products">
+        <ng-template #header let-columns>
+          <tr>
+            <th *ngFor="let col of columns">{{ col.header }}</th>
+          </tr>
+        </ng-template>
+
+        <ng-template #body let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns">
+              {{ rowData[col.field] }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div>
+      <h2>Productos más vendidos</h2>
+      <p-table [columns]="cols" stripedRows [value]="products">
+        <ng-template #header let-columns>
+          <tr>
+            <th *ngFor="let col of columns">{{ col.header }}</th>
+          </tr>
+        </ng-template>
+
+        <ng-template #body let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns">
+              {{ rowData[col.field] }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </section>
+</div>
+<!-- </app-layout> -->

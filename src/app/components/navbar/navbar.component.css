@@ -1,0 +1,7 @@
+:host ::ng-deep .navbar {
+  background: #fcf5fe !important;
+}
+
+.navbar__font {
+  font-family: "Lexend", sans;
+}

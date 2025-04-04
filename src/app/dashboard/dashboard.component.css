@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container__product__table {
+  display: flex;
+  gap: 16px;
+}
+
+.container__product__tables__sales {
+  width: 70%;
+}

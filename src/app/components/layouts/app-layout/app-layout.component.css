@@ -1,0 +1,21 @@
+.layout__app__container {
+  font-family: "Lexend", sans;
+  margin: 32px 0;
+  background-color: #fcf5fe;
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 85vh;
+}
+
+@media (min-width: 604px) {
+  .layout__app__container {
+    min-height: 100%;
+  }
+}
+
+.app__main {
+  background-color: #faeafd;
+  min-height: 98vh;
+  flex: 1;
+  padding: 8px;
+}

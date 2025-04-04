@@ -1,0 +1,33 @@
+.main__settings {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.settings__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  /* min-width: 500px; */
+  width: 100%;
+}
+
+@media (min-width: 604px) {
+  .settings__content {
+    flex-direction: row;
+  }
+}
+
+.settings__content__form {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 28px;
+}
+
+@media (min-width: 604px) {
+  .settings__content__form {
+    margin-top: 0;
+  }
+}

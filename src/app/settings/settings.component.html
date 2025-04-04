@@ -1,0 +1,64 @@
+<section id="initial-title-container">
+  <h2>Configuración</h2>
+</section>
+
+<div id="main-settings" class="main__settings">
+  <section id="forms" class="settings__content">
+    <p-toast />
+    <div id="image-preview" style="width: 100%">
+      <img src="" alt="" />
+      <p-toast />
+      <app-fileupload
+        mode="basic"
+        name="demo[]"
+        chooseIcon="pi pi-upload"
+        accept="image/*"
+        maxFileSize="1000000"
+        (onUpload)="onBasicUploadAuto($event)"
+        chooseLabel="Seleccionar logo"
+      />
+    </div>
+
+    <form id="form" class="settings__content__form">
+      <p-floatlabel>
+        <label>Nombre de la empresa</label>
+        <input pInputText type="text" style="width: 100%" />
+      </p-floatlabel>
+      <p-floatlabel>
+        <label>Teléfono</label>
+        <input pInputText type="text" style="width: 100%" />
+      </p-floatlabel>
+      <p-floatlabel>
+        <label>Correo electrónico</label>
+        <input pInputText type="text" style="width: 100%" />
+      </p-floatlabel>
+      <p-floatlabel>
+        <label>IVA (%)</label>
+        <input pInputText type="text" style="width: 100%" />
+      </p-floatlabel>
+      <p-floatlabel>
+        <label>Símbolo de moneda</label>
+        <input pInputText type="text" style="width: 100%" />
+      </p-floatlabel>
+      <p-floatlabel>
+        <label>Dirección</label>
+        <input pInputText type="text" style="width: 100%" />
+      </p-floatlabel>
+      <p-floatlabel>
+        <label>Ciudad</label>
+        <input pInputText type="text" style="width: 100%" />
+      </p-floatlabel>
+      <p-floatlabel>
+        <label>Región / Provincia</label>
+        <input pInputText type="text" style="width: 100%" />
+      </p-floatlabel>
+      <p-floatlabel>
+        <label>Código postal</label>
+        <input pInputText type="text" style="width: 100%" />
+      </p-floatlabel>
+      <div style="text-align: center">
+        <app-button label="Guardar"></app-button>
+      </div>
+    </form>
+  </section>
+</div>

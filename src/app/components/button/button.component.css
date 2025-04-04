@@ -1,0 +1,32 @@
+:host ::ng-deep .custom-button {
+  background-color: #f4d5f9 !important;
+  border: none !important;
+  color: #450c46;
+}
+
+/* Hover state */
+:host ::ng-deep .custom-button:hover {
+  background-color: #e9a5f1 !important;
+  color: #450c46;
+}
+
+/* Active state */
+:host ::ng-deep .custom-button.p-button:active {
+  background-color: #e287eb !important;
+  color: #450c46;
+}
+
+/* Disabled state */
+/* .custom-button .p-button.p-disabled,
+.custom-button .p-button:disabled {
+  background-color: #450c46 !important;
+  color: #fff !important;
+  opacity: 1;
+  cursor: not-allowed;
+} */
+:host ::ng-deep .custom-button:disabled {
+  background-color: #faeafd !important;
+  color: #e287eb !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+}

@@ -1,0 +1,28 @@
+:host ::ng-deep .p-fileupload-choose-button {
+  background-color: aqua;
+}
+
+:host ::ng-deep .p-fileupload-choose-button {
+  background-color: #f4d5f9 !important;
+  border: none !important;
+  color: #450c46;
+}
+
+/* Hover state */
+:host ::ng-deep .p-fileupload-choose-button:hover {
+  background-color: #e9a5f1 !important;
+  color: #450c46;
+}
+
+/* Active state */
+:host ::ng-deep .p-fileupload-choose-button:active {
+  background-color: #e287eb !important;
+  color: #450c46;
+}
+
+:host ::ng-deep .custom-button:disabled {
+  background-color: #faeafd !important;
+  color: #e287eb !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+}

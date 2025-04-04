@@ -1,0 +1,13 @@
+<p-menubar [model]="items" class="navbar__font" styleClass="navbar">
+  <ng-template #item let-item let-root="root">
+    <a pRipple class="flex items-center p-menubar-item-link">
+      <span>{{ item.label }}</span>
+
+      <span
+        *ngIf="item.shortcut"
+        class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1"
+        >{{ item.shortcut }}</span
+      >
+    </a>
+  </ng-template>
+</p-menubar>

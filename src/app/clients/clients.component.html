@@ -1,0 +1,152 @@
+<section id="initial-title-container">
+  <h2>Buscar Clientes</h2>
+</section>
+
+<section id="datatable">
+  <p-table
+    #productsDT
+    [value]="clients"
+    [rows]="5"
+    dataKey="code"
+    scrollHeight="700px"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [paginator]="true"
+    [globalFilterFields]="['nombre', 'telefono']"
+  >
+    <ng-template #caption>
+      <div class="search__container">
+        <input
+          style="width: 100%"
+          #globalFilter
+          pInputText
+          type="text"
+          (input)="productsDT.filterGlobal(globalFilter.value, 'contains')"
+          placeholder="Busca con código de cliente o nombre"
+          pSortableColumn="nombre"
+        />
+        <app-button label="Añadir"></app-button>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">Código <p-sortIcon field="id" /></th>
+        <th>Nombre</th>
+        <th>Teléfono</th>
+        <th>Correo</th>
+        <th>Dirección</th>
+        <th>Estado</th>
+        <th pSortableColumn="fechaCreacion">
+          Fecha Creación <p-sortIcon field="fechaCreacion" />
+        </th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-client>
+      <tr>
+        <td>{{ client.id }}</td>
+        <td>{{ client.nombre }}</td>
+        <td>{{ client.telefono }}</td>
+        <td>{{ client.correo }}</td>
+        <td>{{ client.direccion }}</td>
+        <td>{{ client.estado }}</td>
+        <td>{{ client.fechaCreacion }}</td>
+
+        <td>
+          <div class="datatable__buttons__container">
+            <app-button
+              (clicked)="openUpdateClientDialog(client)"
+              icon="pi pi-pencil"
+              label=""
+            ></app-button>
+            <app-button
+              (clicked)="openDeleteClientDialog(client.id)"
+              icon="pi pi-trash"
+              label=""
+            ></app-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>
+
+<p-dialog
+  [modal]="true"
+  [(visible)]="updateClientDialogVisible"
+  [style]="{ width: '25rem' }"
+  [draggable]="false"
+>
+  <ng-template #header>
+    <div>
+      <h3>Editar Cliente</h3>
+    </div>
+  </ng-template>
+  <form
+    [formGroup]="updateClientForm"
+    class="client__content__form"
+    (ngSubmit)="onUpdateClientSubmit()"
+  >
+    <p-floatlabel>
+      <label id="nombre">Nombre del cliente</label>
+      <input
+        formControlName="nombre"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+    <p-floatlabel>
+      <label>Teléfono</label>
+      <input
+        formControlName="telefono"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+    <p-floatlabel>
+      <label>Correo electrónico</label>
+      <input
+        formControlName="correo"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+    <p-floatlabel>
+      <label>Dirección</label>
+      <input
+        formControlName="direccion"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+
+    <!-- <p-floatlabel>
+      <label for="gender">Estado:</label>
+      <p-select
+        formControlName="estado"
+        [options]="statusOptions"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecciona un estado"
+        class="client__content__form__select"
+      />
+    </p-floatlabel> -->
+  </form>
+  <ng-template #footer>
+    <app-button
+      (clicked)="onUpdateClientSubmit()"
+      [disabled]="false"
+      type="submit"
+      label="Guardar"
+    ></app-button>
+  </ng-template>
+</p-dialog>
+
+<p-confirm-dialog></p-confirm-dialog>
+
+<p-toast></p-toast>

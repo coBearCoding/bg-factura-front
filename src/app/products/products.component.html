@@ -1,0 +1,50 @@
+<section id="initial-title-container">
+  <h2>Buscar Productos</h2>
+</section>
+
+<section id="datatable">
+  <p-table
+    #productsDT
+    [value]="products"
+    [rows]="10"
+    dataKey="code"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [paginator]="true"
+    [globalFilterFields]="['code', 'name']"
+  >
+    <ng-template #caption>
+      <div class="search__container">
+        <input
+          style="width: 100%"
+          #globalFilter
+          pInputText
+          type="text"
+          (input)="productsDT.filterGlobal(globalFilter.value, 'contains')"
+          placeholder="Busca con código de producto o nombre"
+        />
+        <app-button label="Añadir"></app-button>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>#</th>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Categoría</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>{{ product.code }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>{{ product.category }}</td>
+
+        <td>Acciones de Acciones</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>

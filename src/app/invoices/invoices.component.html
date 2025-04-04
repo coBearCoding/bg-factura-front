@@ -1,0 +1,53 @@
+<section id="initial-title-container">
+  <h2>Buscar facturas</h2>
+</section>
+
+<section id="datatable">
+  <p-table
+    #invoiceDT
+    [value]="invoices"
+    [rows]="10"
+    dataKey="invoiceNumber"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [paginator]="true"
+    [globalFilterFields]="['invoiceNumber', 'client']"
+  >
+    <ng-template #caption>
+      <div class="search__container">
+        <input
+          style="width: 100%"
+          #globalFilter
+          pInputText
+          type="text"
+          (input)="invoiceDT.filterGlobal(globalFilter.value, 'contains')"
+          placeholder="Busca con número de factura o cliente"
+        />
+        <app-button label="Añadir"></app-button>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>#</th>
+        <th>Fecha</th>
+        <th>Cliente</th>
+        <th>Vendedor</th>
+        <th>Estado</th>
+        <th>Total</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-invoice>
+      <tr>
+        <td>{{ invoice.invoiceNumber }}</td>
+        <td>{{ invoice.date }}</td>
+        <td>{{ invoice.client }}</td>
+        <td>{{ invoice.seller }}</td>
+        <td>{{ invoice.state }}</td>
+        <td>{{ invoice.variables }}</td>
+        <td>Acciones de Acciones</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>
