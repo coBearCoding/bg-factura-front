@@ -4,8 +4,8 @@
 
 <section id="datatable">
   <p-table
-    #productsDT
-    [value]="products"
+    #usersDT
+    [value]="users"
     [rows]="10"
     dataKey="code"
     [rowsPerPageOptions]="[10, 25, 50]"
@@ -19,8 +19,8 @@
           #globalFilter
           pInputText
           type="text"
-          (input)="productsDT.filterGlobal(globalFilter.value, 'contains')"
-          placeholder="Busca con código de producto o nombre"
+          (input)="usersDT.filterGlobal(globalFilter.value, 'contains')"
+          placeholder="Busca con código de usuario o nombre"
         />
         <app-button label="Añadir"></app-button>
       </div>
@@ -36,13 +36,13 @@
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-product>
+    <ng-template pTemplate="body" let-user>
       <tr>
-        <td>{{ product.code }}</td>
-        <td>{{ product.name }}</td>
-        <td>{{ product.quantity }}</td>
-        <td>{{ product.category }}</td>
-
+        <td>{{ user.id }}</td>
+        <td>{{ user.nombre }}</td>
+        <td>{{ user.correo }}</td>
+        <td>{{ user.estado }}</td>
+        <td>{{ user.fechaCreacion }}</td>
         <td>Acciones de Acciones</td>
       </tr>
     </ng-template>
