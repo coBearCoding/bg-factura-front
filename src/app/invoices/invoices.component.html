@@ -22,7 +22,10 @@
           (input)="invoiceDT.filterGlobal(globalFilter.value, 'contains')"
           placeholder="Busca con número de factura o cliente"
         />
-        <app-button label="Añadir"></app-button>
+        <app-button
+          label="Añadir"
+          (clicked)="openCreateInvoiceDialog()"
+        ></app-button>
       </div>
     </ng-template>
 
@@ -34,20 +37,405 @@
         <th>Vendedor</th>
         <th>Estado</th>
         <th>Total</th>
-        <th>Acciones</th>
+        <!-- <th>Acciones</th> -->
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-invoice>
       <tr>
-        <td>{{ invoice.invoiceNumber }}</td>
-        <td>{{ invoice.date }}</td>
-        <td>{{ invoice.client }}</td>
-        <td>{{ invoice.seller }}</td>
-        <td>{{ invoice.state }}</td>
-        <td>{{ invoice.variables }}</td>
-        <td>Acciones de Acciones</td>
+        <td>{{ invoice.id }}</td>
+        <td>{{ invoice?.fechaCreacion | date : "dd/MM/yyyy" }}</td>
+        <td>{{ invoice.cliente.nombre || "Consumidor final" }}</td>
+        <td>{{ invoice.vendedor.nombre }}</td>
+        <td>{{ invoice.estado }}</td>
+        <td>${{ invoice.total.toFixed(2) }}</td>
+        <td>
+          <div class="datatable__buttons__container">
+            <!-- <app-button
+              icon="pi pi-pencil"
+              label=""
+              (clicked)="openUpdateInvoiceDialog(invoice)"
+            ></app-button> -->
+            <!-- <app-button icon="pi pi-download" label=""></app-button> -->
+            <!-- <app-button icon="pi pi-trash" label=""></app-button> -->
+          </div>
+        </td>
       </tr>
     </ng-template>
   </p-table>
 </section>
+
+<p-dialog
+  [modal]="true"
+  [(visible)]="createInvoiceDialogVisible"
+  [style]="{
+    width: '90vw',
+    height: '90vh',
+    maxWidth: '100%',
+    maxHeight: '100%'
+  }"
+  [contentStyle]="{ overflow: 'auto', height: '100%' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <ng-template #header>
+    <div>
+      <h3>Crear Factura de Cliente</h3>
+    </div>
+  </ng-template>
+  <form [formGroup]="createInvoiceForm" class="invoice_content__form">
+    <section id="client-data" class="invoice__client__data">
+      <div class="invoice__client__data__item">
+        <p-floatlabel>
+          <label for="gender">Seleccione un cliente:</label>
+          <p-select
+            formControlName="idCliente"
+            [options]="clients"
+            optionLabel="nombre"
+            optionValue="id"
+            placeholder="Seleccione un cliente"
+            class="client__content__form__select"
+          />
+        </p-floatlabel>
+
+        <p-floatlabel>
+          <label for="gender">Seleccione un vendedor:</label>
+          <p-select
+            formControlName="idVendedor"
+            [options]="sellers"
+            optionLabel="nombre"
+            optionValue="id"
+            placeholder="Seleccione un vendedor"
+            class="client__content__form__select"
+          />
+        </p-floatlabel>
+      </div>
+      <div class="invoice__client__data__item">
+        <p-floatlabel>
+          <label for="gender">Tipo pago:</label>
+          <p-select
+            formControlName="formaPago"
+            [options]="paymentTypeOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Seleccione una forma de pago"
+            class="client__content__form__select"
+          />
+        </p-floatlabel>
+      </div>
+    </section>
+
+    <section id="invoice-description">
+      <p-table
+        #invoiceDetailDT
+        [value]="selectedInvoiceDetail!"
+        [rows]="10"
+        dataKey="invoiceNumber"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [paginator]="true"
+        [globalFilterFields]="['invoiceNumber', 'client']"
+      >
+        <ng-template #caption>
+          <div class="search__container">
+            <input
+              style="width: 100%"
+              #globalFilter
+              pInputText
+              type="text"
+              (input)="
+                invoiceDetailDT.filterGlobal(globalFilter.value, 'contains')
+              "
+              placeholder="Busca con número de factura o producto"
+            />
+            <app-button
+              label="Añadir"
+              (clicked)="openAddProductDialogVisible()"
+            ></app-button>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Código</th>
+            <th>Cantidad</th>
+            <th>Descripción</th>
+            <th>Precio Unitario</th>
+            <th>Precio Total</th>
+            <!-- <th>Acciones</th> -->
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-invoiceDetail>
+          <tr>
+            <td>{{ invoiceDetail.producto.id }}</td>
+            <td>{{ invoiceDetail.cantidad }}</td>
+            <td>{{ invoiceDetail.producto.nombre }}</td>
+            <td>${{ invoiceDetail.producto.precio.toFixed(2) }}</td>
+            <td>
+              ${{
+                (
+                  invoiceDetail.producto.precio * invoiceDetail.cantidad
+                ).toFixed(2)
+              }}
+            </td>
+            <!-- <td>
+              <div class="datatable__buttons__container">
+                <app-button icon="pi pi-trash" label=""></app-button>
+              </div>
+            </td> -->
+          </tr>
+        </ng-template>
+      </p-table>
+    </section>
+  </form>
+  <ng-template #footer>
+    <app-button
+      [disabled]="false"
+      type="submit"
+      label="Guardar"
+      (clicked)="onInvoiceSubmit()"
+    ></app-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [modal]="true"
+  [(visible)]="addProductDialogVisible"
+  [style]="{
+    height: '30rem',
+    maxWidth: '100%',
+    maxHeight: '100%'
+  }"
+  [contentStyle]="{ overflow: 'auto', height: '100%' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <ng-template #header>
+    <div>
+      <h3>Agregar Producto</h3>
+    </div>
+  </ng-template>
+  <form [formGroup]="productAddForm" class="invoice_content__form">
+    <div class="invoice__client__data__item">
+      <p-floatlabel>
+        <label>Seleccione un producto</label>
+        <p-select
+          formControlName="idProducto"
+          [options]="products"
+          optionLabel="nombre"
+          optionValue="id"
+          placeholder="Seleccione un producto"
+          class="client__content__form__select"
+        />
+      </p-floatlabel>
+
+      <p-floatlabel>
+        <label>Cantidad</label>
+        <input
+          type="number"
+          formControlName="cantidad"
+          pInputText
+          min="1"
+          style="width: 100%"
+        />
+      </p-floatlabel>
+    </div>
+  </form>
+  <ng-template #footer>
+    <app-button
+      [disabled]="false"
+      type="submit"
+      label="Guardar"
+      (clicked)="onProductAdded()"
+    ></app-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [modal]="true"
+  [(visible)]="updateInvoiceDialogVisible"
+  [style]="{
+    width: '90vw',
+    height: '90vh',
+    maxWidth: '100%',
+    maxHeight: '100%'
+  }"
+  [contentStyle]="{ overflow: 'auto', height: '100%' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <ng-template #header>
+    <div>
+      <h3>
+        Agregar Producto:
+        <span>{{ selectedClient?.nombre || "Consumidor final" }}</span>
+      </h3>
+    </div>
+  </ng-template>
+  <form [formGroup]="updateInvoiceForm" class="invoice_content__form">
+    <section id="client-data" class="invoice__client__data">
+      <div class="invoice__client__data__item">
+        <!-- <div class="invoice__client__data__item__text__container">
+          <span>Cliente:</span><span>{{ selectedClient?.nombre }}</span>
+        </div> -->
+        <div class="invoice__client__data__item__text__container">
+          <span>Correo:</span><span>{{ selectedClient?.correo }}</span>
+        </div>
+        <div class="invoice__client__data__item__text__container">
+          <span>Vendedor:</span><span>{{ selectedSeller?.nombre }}</span>
+        </div>
+      </div>
+      <div class="invoice__client__data__item">
+        <div class="invoice__client__data__item__text__container">
+          <span>Teléfono:</span><span>{{ selectedClient?.telefono }}</span>
+        </div>
+        <div class="invoice__client__data__item__text__container">
+          <span>Fecha:</span
+          ><span>{{
+            selectedClient?.fechaCreacion | date : "dd/MM/yyyy"
+          }}</span>
+        </div>
+      </div>
+      <div class="invoice__client__data__item">
+        <div class="invoice__client__data__item__text__container">
+          <label for="gender">Tipo pago:</label>
+          <p-select
+            formControlName="formaPago"
+            [options]="paymentTypeOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Seleccione una forma de pago"
+            class="client__content__form__select"
+          />
+        </div>
+        <!-- <div class="invoice__client__data__item__text__container">
+          <label for="gender">Estado de factura:</label>
+          <p-select
+            formControlName="formaPago"
+            [options]="invoiceStatusOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Selecciona un estado"
+            class="client__content__form__select"
+          />
+        </div> -->
+      </div>
+    </section>
+
+    <section id="invoice-description">
+      <p-table
+        #invoiceDetailDT
+        [value]="selectedInvoiceDetail!"
+        [rows]="10"
+        dataKey="invoiceNumber"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [paginator]="true"
+        [globalFilterFields]="['invoiceNumber', 'client']"
+      >
+        <ng-template #caption>
+          <div class="search__container">
+            <input
+              style="width: 100%"
+              #globalFilter
+              pInputText
+              type="text"
+              (input)="
+                invoiceDetailDT.filterGlobal(globalFilter.value, 'contains')
+              "
+              placeholder="Busca con número de factura o producto"
+            />
+            <app-button label="Añadir"></app-button>
+          </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Código</th>
+            <th>Cantidad</th>
+            <th>Descripción</th>
+            <th>Precio Unitario</th>
+            <th>Precio Total</th>
+            <!-- <th>Acciones</th> -->
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-invoiceDetail>
+          <tr>
+            <td>{{ invoiceDetail.producto.id }}</td>
+            <td>{{ invoiceDetail.cantidad }}</td>
+            <td>{{ invoiceDetail.producto.nombre }}</td>
+            <td>${{ invoiceDetail.producto.precio.toFixed(2) }}</td>
+            <td>
+              ${{
+                (
+                  invoiceDetail.producto.precio * invoiceDetail.cantidad
+                ).toFixed(2)
+              }}
+            </td>
+            <!-- <td>
+              <div class="datatable__buttons__container">
+                <app-button icon="pi pi-trash" label=""></app-button>
+              </div>
+            </td> -->
+          </tr>
+        </ng-template>
+      </p-table>
+    </section>
+
+    <!-- <p-floatlabel>
+      <label id="nombre">Nombre del cliente</label>
+      <input
+        formControlName="nombre"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+    <p-floatlabel>
+      <label>Teléfono</label>
+      <input
+        formControlName="telefono"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+    <p-floatlabel>
+      <label>Correo electrónico</label>
+      <input
+        formControlName="correo"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+    <p-floatlabel>
+      <label>Dirección</label>
+      <input
+        formControlName="direccion"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel> -->
+
+    <!-- <p-floatlabel>
+      <label for="gender">Estado:</label>
+      <p-select
+        formControlName="estado"
+        [options]="statusOptions"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecciona un estado"
+        class="client__content__form__select"
+      />
+    </p-floatlabel> -->
+  </form>
+  <ng-template #footer>
+    <app-button [disabled]="false" type="submit" label="Guardar"></app-button>
+  </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>
+
+<p-confirm-dialog></p-confirm-dialog>

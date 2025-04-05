@@ -2,3 +2,28 @@
   display: flex;
   gap: 16px;
 }
+
+.datatable__buttons__container {
+  display: flex;
+  gap: 16px;
+  height: 100%;
+}
+
+.product__content__form {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 28px;
+  /* margin-bottom: 72px; */
+}
+
+@media (min-width: 604px) {
+  .product__content__form {
+    margin-top: 20px;
+  }
+}
+
+.product__content__form__select {
+  width: 100%;
+}

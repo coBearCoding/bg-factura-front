@@ -6,11 +6,12 @@
   <p-table
     #productsDT
     [value]="products"
-    [rows]="10"
+    [rows]="5"
     dataKey="code"
-    [rowsPerPageOptions]="[10, 25, 50]"
+    scrollHeight="700px"
+    [rowsPerPageOptions]="[5, 10, 20]"
     [paginator]="true"
-    [globalFilterFields]="['code', 'name']"
+    [globalFilterFields]="['nombre', 'telefono']"
   >
     <ng-template #caption>
       <div class="search__container">
@@ -20,31 +21,170 @@
           pInputText
           type="text"
           (input)="productsDT.filterGlobal(globalFilter.value, 'contains')"
-          placeholder="Busca con código de producto o nombre"
+          placeholder="Busca con código de producte o nombre"
+          pSortableColumn="nombre"
         />
-        <app-button label="Añadir"></app-button>
+        <app-button
+          label="Añadir"
+          (clicked)="openCreateProductDialog()"
+        ></app-button>
       </div>
     </ng-template>
 
     <ng-template pTemplate="header">
       <tr>
-        <th>#</th>
-        <th>Producto</th>
-        <th>Cantidad</th>
-        <th>Categoría</th>
+        <th pSortableColumn="id">Código Producto <p-sortIcon field="id" /></th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Estado</th>
+        <th pSortableColumn="fechaCreacion">
+          Fecha Creación <p-sortIcon field="fechaCreacion" />
+        </th>
         <th>Acciones</th>
       </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-product>
       <tr>
-        <td>{{ product.code }}</td>
-        <td>{{ product.name }}</td>
-        <td>{{ product.quantity }}</td>
-        <td>{{ product.category }}</td>
-
-        <td>Acciones de Acciones</td>
+        <td>{{ product.id }}</td>
+        <td>{{ product.nombre }}</td>
+        <td>${{ product.precio.toFixed(2) }}</td>
+        <td>{{ product.estado }}</td>
+        <td>{{ product?.fechaCreacion | date : "dd/MM/yyyy" }}</td>
+        <td>
+          <div class="datatable__buttons__container">
+            <app-button
+              (clicked)="openUpdateProductDialog(product)"
+              icon="pi pi-pencil"
+              label=""
+            ></app-button>
+            <app-button
+              (clicked)="openDeleteProductDialog(product.id)"
+              icon="pi pi-trash"
+              label=""
+            ></app-button>
+          </div>
+        </td>
       </tr>
     </ng-template>
   </p-table>
 </section>
+
+<p-dialog
+  [modal]="true"
+  [(visible)]="createProductDialogVisible"
+  [style]="{ width: '25rem' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <ng-template #header>
+    <div>
+      <h3>Crear Producto</h3>
+    </div>
+  </ng-template>
+  <form
+    [formGroup]="createProductForm"
+    class="product__content__form"
+    (ngSubmit)="onUpdateProductSubmit()"
+  >
+    <p-floatlabel>
+      <label id="nombre">Nombre del producto</label>
+      <input
+        formControlName="nombre"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+    <p-floatlabel>
+      <label>Precio</label>
+      <input
+        formControlName="precio"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+
+    <!-- <p-floatlabel>
+    <label for="gender">Estado:</label>
+    <p-select
+      formControlName="estado"
+      [options]="statusOptions"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Selecciona un estado"
+      class="product__content__form__select"
+    />
+  </p-floatlabel> -->
+  </form>
+  <ng-template #footer>
+    <app-button
+      (clicked)="onCreateProductSubmit()"
+      [disabled]="false"
+      type="submit"
+      label="Guardar"
+    ></app-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog
+  [modal]="true"
+  [(visible)]="updateProductDialogVisible"
+  [style]="{ width: '25rem' }"
+  [draggable]="false"
+>
+  <ng-template #header>
+    <div>
+      <h3>Editar Producto</h3>
+    </div>
+  </ng-template>
+  <form
+    [formGroup]="updateProductForm"
+    class="product__content__form"
+    (ngSubmit)="onUpdateProductSubmit()"
+  >
+    <p-floatlabel>
+      <label id="nombre">Nombre del producto</label>
+      <input
+        formControlName="nombre"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+    <p-floatlabel>
+      <label>Precio</label>
+      <input
+        formControlName="precio"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+
+    <!-- <p-floatlabel>
+      <label for="gender">Estado:</label>
+      <p-select
+        formControlName="estado"
+        [options]="statusOptions"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Selecciona un estado"
+        class="product__content__form__select"
+      />
+    </p-floatlabel> -->
+  </form>
+  <ng-template #footer>
+    <app-button
+      (clicked)="onUpdateProductSubmit()"
+      [disabled]="false"
+      type="submit"
+      label="Guardar"
+    ></app-button>
+  </ng-template>
+</p-dialog>
+
+<p-confirm-dialog></p-confirm-dialog>
+
+<p-toast></p-toast>

@@ -7,3 +7,8 @@ export interface Client {
   estado?: 'Activo' | 'Inactivo';
   fechaCreacion?: Date;
 }
+
+export enum ClienteEstado {
+  Activo = 'activo',
+  EstadoActivo = 'Activo',
+}

@@ -34,6 +34,7 @@ export class ClientsComponent {
   // * ---- PAGES PROPS ----
   clients: Client[] = [];
   isLoading: boolean = true;
+  createClientDialogVisible: boolean = false;
   updateClientDialogVisible: boolean = false;
   deleteClientDialogVisible: boolean = false;
 
@@ -43,6 +44,15 @@ export class ClientsComponent {
   // ];
 
   // * ---- FORMS PROPS ----
+
+  createClientForm = this.fb.group({
+    id: [0],
+    nombre: ['', [Validators.required, Validators.minLength(3)]],
+    telefono: ['', [Validators.minLength(10), Validators.maxLength(10)]],
+    correo: ['', [Validators.email]],
+    direccion: ['', [Validators.minLength(3)]],
+  });
+
   updateClientForm = this.fb.group({
     id: [0],
     nombre: ['', [Validators.required, Validators.minLength(3)]],
@@ -67,13 +77,29 @@ export class ClientsComponent {
     this.clientService.getClients().subscribe({
       next: (data) => {
         this.clients = data.$values;
-        this.isLoading = true;
+        this.isLoading = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Exitoso',
+          detail: 'Se ha cargado clientes exitosamente',
+          life: 3000,
+        });
       },
       error: (err) => {
         console.error('Error al cargar clientes', err);
         this.isLoading = false;
+        this.messageService.add({
+          severity: 'danger',
+          summary: 'Error',
+          detail: 'Hubo un error al cargar clientes, intente nuevamente',
+          life: 3000,
+        });
       },
     });
+  }
+
+  openCreateClientDialog() {
+    this.createClientDialogVisible = !this.createClientDialogVisible;
   }
 
   openUpdateClientDialog(client: Client) {
@@ -110,6 +136,36 @@ export class ClientsComponent {
     });
   }
 
+  onCreateClientSubmit() {
+    if (this.createClientForm.valid) {
+      this.clientService
+        .createClient(this.createClientForm.value as Client)
+        .subscribe({
+          next: () => {
+            this.initClients();
+            this.createClientDialogVisible = false;
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Exitoso',
+              detail: 'Se ha guardado el cambio exitosamente',
+              life: 3000,
+            });
+          },
+          error: (err) => {
+            console.error(err);
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Hubo un error al guardar el cambio, intente nuevamente',
+              life: 3000,
+            });
+
+            this.createClientDialogVisible = false;
+          },
+        });
+    }
+  }
+
   onUpdateClientSubmit() {
     if (this.updateClientForm.valid) {
       this.clientService
@@ -140,6 +196,4 @@ export class ClientsComponent {
       this.updateClientForm.markAllAsTouched();
     }
   }
-
-  onDeleteClientSubmit() {}
 }
