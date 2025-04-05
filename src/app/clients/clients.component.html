@@ -53,7 +53,7 @@
         <td>{{ client.correo }}</td>
         <td>{{ client.direccion }}</td>
         <td>{{ client.estado }}</td>
-        <td>{{ client.fechaCreacion }}</td>
+        <td>{{ client.fechaCreacion | date : "dd/MM/yyyy" }}</td>
 
         <td>
           <div class="datatable__buttons__container">

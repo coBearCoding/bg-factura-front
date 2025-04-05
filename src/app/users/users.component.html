@@ -29,9 +29,10 @@
     <ng-template pTemplate="header">
       <tr>
         <th>#</th>
-        <th>Producto</th>
-        <th>Cantidad</th>
-        <th>Categoría</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Estado</th>
+        <th>Fecha Creación</th>
         <th>Acciones</th>
       </tr>
     </ng-template>
@@ -42,7 +43,7 @@
         <td>{{ user.nombre }}</td>
         <td>{{ user.correo }}</td>
         <td>{{ user.estado }}</td>
-        <td>{{ user.fechaCreacion }}</td>
+        <td>{{ user.fechaCreacion | date : "dd/MM/yyyy" }}</td>
         <td>Acciones de Acciones</td>
       </tr>
     </ng-template>

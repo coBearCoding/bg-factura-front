@@ -6,10 +6,11 @@ import { User } from '../models/users';
 import { UsersService } from './users.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-users',
-  imports: [TableModule, ButtonComponent, InputTextModule],
+  imports: [TableModule, ButtonComponent, InputTextModule, CommonModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
