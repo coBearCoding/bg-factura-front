@@ -112,14 +112,14 @@ export class DashboardComponent implements OnInit {
   }
 
   initProducts() {
-    this.products = [
-      {
-        code: '123123',
-        name: 'Bamboo Watch',
-        category: 'Accessories',
-        quantity: 12,
-      },
-    ];
+    // this.products = [
+    //   {
+    //     code: '123123',
+    //     name: 'Bamboo Watch',
+    //     category: 'Accessories',
+    //     quantity: 12,
+    //   },
+    // ];
 
     this.cols = [
       {

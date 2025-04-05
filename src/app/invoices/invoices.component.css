@@ -2,3 +2,46 @@
   display: flex;
   gap: 16px;
 }
+
+.datatable__buttons__container {
+  display: flex;
+  gap: 16px;
+  height: 100%;
+}
+
+.invoice_content__form {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 28px;
+  /* margin-bottom: 72px; */
+}
+
+.invoice__client__data {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: 100%;
+  background-color: #fcf5fe;
+  padding: 32px;
+  border-radius: 12px;
+}
+
+.invoice__client__data__item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  gap: 24px;
+}
+
+.invoice__client__data__item__text__container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.client__content__form__select {
+  width: 100%;
+}

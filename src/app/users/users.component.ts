@@ -19,19 +19,19 @@ export class UsersComponent implements OnInit {
   }
 
   initProducts() {
-    this.products = [
-      {
-        code: '1273',
-        name: 'Pistacho',
-        quantity: 10,
-        category: 'Comida',
-      },
-      {
-        code: '1274',
-        name: 'Pistacho',
-        quantity: 10,
-        category: 'Comida',
-      },
-    ];
+    // this.products = [
+    //   {
+    //     code: '1273',
+    //     name: 'Pistacho',
+    //     quantity: 10,
+    //     category: 'Comida',
+    //   },
+    //   {
+    //     code: '1274',
+    //     name: 'Pistacho',
+    //     quantity: 10,
+    //     category: 'Comida',
+    //   },
+    // ];
   }
 }

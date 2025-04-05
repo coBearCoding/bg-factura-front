@@ -22,9 +22,11 @@
           type="text"
           (input)="productsDT.filterGlobal(globalFilter.value, 'contains')"
           placeholder="Busca con código de cliente o nombre"
-          pSortableColumn="nombre"
         />
-        <app-button label="Añadir"></app-button>
+        <app-button
+          label="Añadir"
+          (clicked)="openCreateClientDialog()"
+        ></app-button>
       </div>
     </ng-template>
 
@@ -71,6 +73,70 @@
     </ng-template>
   </p-table>
 </section>
+
+<p-dialog
+  [modal]="true"
+  [(visible)]="createClientDialogVisible"
+  [style]="{ width: '25rem' }"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <ng-template #header>
+    <div>
+      <h3>Crear Cliente</h3>
+    </div>
+  </ng-template>
+  <form
+    [formGroup]="createClientForm"
+    class="client__content__form"
+    (ngSubmit)="onUpdateClientSubmit()"
+  >
+    <p-floatlabel>
+      <label id="nombre">Nombre del cliente</label>
+      <input
+        formControlName="nombre"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+    <p-floatlabel>
+      <label>Teléfono</label>
+      <input
+        formControlName="telefono"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+    <p-floatlabel>
+      <label>Correo electrónico</label>
+      <input
+        formControlName="correo"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+    <p-floatlabel>
+      <label>Dirección</label>
+      <input
+        formControlName="direccion"
+        pInputText
+        type="text"
+        style="width: 100%"
+      />
+    </p-floatlabel>
+  </form>
+  <ng-template #footer>
+    <app-button
+      (clicked)="onCreateClientSubmit()"
+      [disabled]="false"
+      type="submit"
+      label="Guardar"
+    ></app-button>
+  </ng-template>
+</p-dialog>
 
 <p-dialog
   [modal]="true"

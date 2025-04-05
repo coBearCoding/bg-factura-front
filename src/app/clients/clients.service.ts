@@ -15,6 +15,10 @@ export class ClientsService {
     return this.http.get<GeneralAPI<Client>>(`${this.baseUrl}/consultar`);
   }
 
+  createClient(client:Client){
+    return this.http.post<GeneralAPI<Client>>(`${this.baseUrl}/crear`, client);
+  }
+
   updateClient(client: Client) {
     return this.http.put<GeneralAPI<Client>>(
       `${this.baseUrl}/modificar?id=${client.id}`,

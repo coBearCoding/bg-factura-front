@@ -1,6 +1,12 @@
+export enum Estado {
+  Activo = 'Activo',
+}
+
 export interface Product {
-  code: string;
-  name: string;
-  category: string;
-  quantity: number;
+  $id: string;
+  id: number;
+  nombre: string;
+  precio: number;
+  estado: Estado;
+  fechaCreacion: Date;
 }
